@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #555;
+  overflow-x: hidden;
+  padding-top: 20px;
+  cursor: pointer;
+}
+
+.navitm{
+  padding: 6px 8px 6px 16px;
+  font-size: 25px;
+  color: #ddd;
+  display: block;
+}
+
+.navitm:hover {
+  color: #fff;
+}
+
+
+pre {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    width: 60%;
+    word-wrap: break-word;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="sidenav">
+  <div class="navitm" onclick="loadSnippet('about')">About</div>
+  <div class="navitm" onclick="loadSnippet('test')">Test</div>
+</div>
+
+<div class="main">
+    <div id="content"></div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function loadSnippet(fileName){
+        $("#content").load("snippets/"+fileName+".html");
+    }
+    loadSnippet("about")
+</script>   
+</body>
+</html> 
