@@ -29,27 +29,65 @@ class Node;
 class Weight{
     private:
         double value;
+        Node* to;
+        Node* from;
     public:
         Weight(double value){
             this->value = value;
         }
+
         double getValue(){
             return this->value;
         }
+        
+        void setTo(Node* to){
+            this->to = to;
+        }
+        
+        void setFrom(Node* from){
+            this->from = from;
+        }
+};
+
+class Node{
+    private:
+        double value,output,error;
+        vector<Weight *> weightsIn,weightsOut;
+    public:
+        Node(){
+            this->value=0.0;
+            this->output=0.0;
+            this->error=0.0;
+        }
+
+        void addWeightIn(Weight* wp){
+            wp->setTo(this);
+            this->weightsIn.push_back(wp);
+        }
+        
+        void addWeightOut(Weight* wp){
+            wp->setFrom(this);
+            this->weightsOut.push_back(wp);
+        }
+        
+        void setValue(double value){
+            this->value = value;
+        }
+        
+        double getValue(){
+            return this->value;
+        }
+        
 };
 
 int main(int argc, char **argv){
-    Weight* wp = new Weight(0.5);
-    Weight w =  Weight(0.3);
-    
-    cout << "hello real world " << w.getValue() << endl;
-	cout << "hello pointy world " << wp->getValue() << endl;
-    vector<Weight *> v_weights;
-    for(int i=0;i<5;i++){
-        v_weights.push_back(new Weight(i/10.0));
-    } 
-    for(int i=0; i<v_weights.size(); ++i) 
-        cout<< "v_weight:"<<i<<" value:"<< v_weights[i]->getValue() << '\n'; 
+    Weight* wpIn = new Weight(0.1);
+    Weight* wpOut = new Weight(0.2);
+    Node* nodep = new Node();
+    nodep->setValue(0.3);
+    nodep->addWeightIn(wpIn);
+    nodep->addWeightOut(wpOut);
+    cout << "Node value:"<<nodep->getValue()<<endl;
 	return 0;
 }
 
