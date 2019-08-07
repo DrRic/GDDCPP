@@ -1,7 +1,7 @@
 /*
- * GDDCPP001.cxx
+ * Test.cpp
  * 
- * Copyright 2019  <pi@raspberrypi>
+ * Copyright 2019 DR Ricardo Colasanti <ric@ric-CS-B>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,69 +21,13 @@
  * 
  */
 
-#include <vector>
 #include <iostream>
-#include "GDDCPP003.h"
+#include "Node.h"
+
 using namespace std;
 
-
-class Weight{
-    private:
-        double weight;
-        Node* to;
-        Node* from;
-    public:
-        Weight(double weight){
-            this->weight = weight;
-        }
-        void setTo(Node* to){
-            this->to = to;
-        }
-        void setFrom(Node* from){
-            this->from = from;
-        }
-        double getProduct(){
-            return this->from->value * this->weight;
-        }
-};
-
-class Node{
-    private:
-        double value,output,error;
-        vector<Weight *> weightsIn,weightsOut;
-    public:
-        
-        Node(){
-            this->value=0.0;
-            this->output=0.0;
-            this->error=0.0;
-        }
-
-        void addWeightIn(Weight* wp){
-            wp->setTo(this);
-            this->weightsIn.push_back(wp);
-        }
-        
-        void addWeightOut(Weight* wp){
-            wp->setFrom(this);
-            this->weightsOut.push_back(wp);
-        }
-        
-        void setValue(double value){
-            this->value = value;
-        }
-        
-        
-        void calcValue(){
-            this->value = 0.0;
-            for(int i=0; i<weightsIn.size(); ++i){
-                this->value+=weightsIn[i]->getProduct();
-            } 
-        }
-        
-};
-
-int main(int argc, char **argv){
+int main(int argc, char **argv)
+{
     /*
                  #toes %win #fans
 ih_wgt = [ [0.1, 0.2, -0.1], #hid[0]
