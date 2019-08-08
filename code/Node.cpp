@@ -23,6 +23,9 @@
 
 
 #include "Node.h"
+#include <iostream>
+using namespace std;
+
 Node::Node(){
     this->value=0.0;
     this->output=0.0;

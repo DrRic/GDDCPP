@@ -22,9 +22,9 @@
  */
 
 #include <iostream>
-using namespace std;
-
 #include "Node.h"
+
+using namespace std;
 
 int main(int argc, char **argv)
 {
@@ -44,6 +44,10 @@ hp_wgt = [ [0.3, 1.1, -0.3], #hurt?
   
     double data[3][4] = {{8.5, 9.5, 9.9, 9.0},{0.65,0.8, 0.8, 0.9},{1.2, 1.3, 0.5, 1.0}};
     
+   
+    int lInSize=3;
+    int lHiddenSize=3;
+    int lOutSize=3;
     
     Node* layerIn[3];
     Node* layerHidden[3];
@@ -82,11 +86,6 @@ hp_wgt = [ [0.3, 1.1, -0.3], #hurt?
     for(int i; i<3; i++){
         layerIn[i]->setValue(data[i][0]);
         cout<< layerIn[i]->getValue() <<endl;
-    }
-
-    for(int i; i<3; i++){
-        layerHidden[i]->calcValue();
-        cout<< layerHidden[i]->getValue() <<endl;
     }
     return 0;
      /*

@@ -21,6 +21,8 @@
  * 
  */
 #include "Weight.h"
+#include <iostream>
+using namespace std;
 Weight::Weight(double value){
     this->weight = value;
 }
@@ -31,5 +33,6 @@ void Weight::setFrom(Node* from){
     this->from = from;
 }
 double Weight::getProduct(){
+    //cout<< this->from->getValue()<<" "<< this->weight<< endl;
     return this->from->getValue() * this->weight;
 }
