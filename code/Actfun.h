@@ -1,7 +1,7 @@
 /*
- * Node.cpp
+ * Actfun.h
  * 
- * Copyright 2019 DR Ricardo Colasanti <ric@ric-CS-B>
+ * Copyright 2019  <pi@raspberrypi>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,41 +21,16 @@
  * 
  */
 
-
-#include "Node.h"
-#include <iostream>
-using namespace std;
-
-Node::Node(Actfun* actfun){
-    this->value=0.0;
-    this->output=0.0;
-    this->error=0.0;
-    this->actfun = actfun;
-}
-
-void Node::addWeightIn(Weight* wp){
-    wp->setTo(this);
-    this->weightsIn.push_back(wp);
-}
-
-void Node::addWeightOut(Weight* wp){
-    wp->setFrom(this);
-    this->weightsOut.push_back(wp);
-}
-
-void Node::setValue(double value){
-    this->value = value;
-}
-
-double Node::getValue(){
-    return value;
-}
-
-void Node::calcValue(){
-    this->value = 0.0;
-    for(int i=0; i<weightsIn.size(); ++i){
-        this->value+=weightsIn[i]->getProduct();
-    } 
-    value = actfun->actFunction(value);
-}
-
+#ifndef ACTFUN_H
+#define ACTFUN_H
+class Actfun;
+class Actfun{
+    public:
+        virtual double actFunction(double value){
+            return value;
+        };
+        virtual double divFunction(double value){
+            return value;
+        };
+};
+#endif
