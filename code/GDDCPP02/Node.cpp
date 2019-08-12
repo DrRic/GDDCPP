@@ -26,10 +26,11 @@
 #include <iostream>
 using namespace std;
 
-Node::Node(){
+Node::Node(Actfun* actfun){
     this->value=0.0;
     this->output=0.0;
     this->error=0.0;
+    this->actfun = actfun;
 }
 
 void Node::addWeightIn(Weight* wp){
@@ -55,5 +56,6 @@ void Node::calcValue(){
     for(int i=0; i<weightsIn.size(); ++i){
         this->value+=weightsIn[i]->getProduct();
     } 
+    value = actfun->actFunction(value);
 }
 

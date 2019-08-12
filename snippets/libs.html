@@ -1,0 +1,28 @@
+<h2>Crate C++ library</h2>
+<p>
+Using the GNU C++ compiler, we can simply use the -shared linker option to generate a .so file instead of an executable. 
+The code generated with the -fPIC option makes the code relocatable. The -o option is used to specify the name of an output file, and the -shared option builds a shared library in which unresolved references are allowed.</h2>
+A typical shared library extension is so. For math library, it is /usr/lib/libm.so.
+</p>
+<pre>
+    <code>
+g++ -c -fPIC foo.cpp -o foo.o
+g++ -shared -Wl,-soname,libfoo.so -o libfoo.so  foo.o
+    </code>
+</pre>
+<p>
+The soname is simply a symbolic link to the shared library's real name which is the filename containing the actual library code. 
+The command -W1 passes options to linker.  </p>
+
+ <pre>
+    <code>
+g++ -c -fPIC MLP.cpp Weight.cpp Node.cpp 
+g++ -shared -Wl,-soname,libmlp.so -o libmlp.so  MLP.o Weight.o Node.o
+    </code>
+</pre>
+<p> 
+    create multiple object code
+</p>
+<p>
+    create shared library from the multiple object dode
+</p>

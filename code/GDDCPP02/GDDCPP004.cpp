@@ -22,9 +22,19 @@
  */
 
 #include <iostream>
+#include <math.h>  
 #include "Node.h"
+#include "Weight.h"
+#include "Actfun.h"
 
 using namespace std;
+
+class Sigfun: public Actfun{
+    public:
+        double actFunction(double value){
+            return (1.0 / (1 + exp(-value))); 
+        }
+};
 
 int main(int argc, char **argv)
 {
@@ -35,12 +45,13 @@ int main(int argc, char **argv)
     int layers = 3;
     vector<int> nodesPerLayer {3,3,3};
     
+    Actfun* actfun = new Actfun();
     // Create first layer
     vector<vector<Node*>> network; 
     vector<Node*> v;
     network.push_back(v);
     for(int j=0; j<nodesPerLayer[0]; j++){
-        network[0].push_back(new Node()); 
+        network[0].push_back(new Node(actfun)); 
     }
 
     // Populate the hidden and ouput layers
@@ -49,7 +60,7 @@ int main(int argc, char **argv)
         vector<Node*> v;
         network.push_back(v);
         for(int i=0; i<nodesPerLayer[layer]; i++){
-            network[layer].push_back(new Node());
+            network[layer].push_back(new Node(actfun));
             for(int j=0; j<nodesPerLayer[layer-1]; j++){
                 Weight* wp = new Weight(weightsInArray[layer-1][i][j]);
                 network[layer][i]->addWeightIn(wp);
@@ -59,7 +70,7 @@ int main(int argc, char **argv)
     }
     
     // Populate the input layer with data
-    for(int i; i<network[0].size(); i++){
+    for(int i=0; i<network[0].size(); i++){
         network[0][i]->setValue(data[i][0]);
         cout<< network[0][i]->getValue() <<"  ";
     }
