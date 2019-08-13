@@ -1,7 +1,7 @@
 /*
- * Weight.cpp
+ * Actfun.h
  * 
- * Copyright 2019 DR Ricardo Colasanti <ric@ric-CS-B>
+ * Copyright 2019  <pi@raspberrypi>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,32 +20,17 @@
  * 
  * 
  */
-#include "Weight.h"
-#include <iostream>
-double Weight::alpha = 0.2;  
-using namespace std;
-Weight::Weight(double value){
-    this->weight = value;
-}
 
-double Weight::getWeight(){
-    return weight;
-}
-
-void Weight::setTo(Node* to){
-    this->to = to;
-}
-void Weight::setFrom(Node* from){
-    this->from = from;
-}
-double Weight::calcProduct(){
-    return this->from->getOutput() * this->weight;
-}
-
-double Weight::calcError(){
-    return this->to->getError() * this->weight;
-}
-
-void Weight::updateWeight(){
-    weight-= alpha * to->getError()*from->getOutput();
-}
+#ifndef ACTFUN_H
+#define ACTFUN_H
+class Actfun;
+class Actfun{
+    public:
+        virtual double actFunction(double value){
+            return value;
+        };
+        virtual double divFunction(double value){
+            return value;
+        };
+};
+#endif
