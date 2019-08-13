@@ -1,0 +1,99 @@
+<h2>MLP</h2>
+<p>
+The multi-layer perseptron.
+</p>
+<h4>Node</h4>
+<p>
+The basic unit of the MP is the perseptron. This is made up of a node and a number of connective weights that connect nodes from one layer to the next. Each node consists of: a value, an output, an output function, an error value, a list of input weights and a list of output weights.
+</p>
+<pre>
+    <code>
+#ifndef NODE_H
+#define NODE_H
+class Node;
+using namespace std;
+#include "Weight.h"
+#include "Actfun.h"
+#include <vector>
+class Node{
+    private:
+        double value,output,error;
+        vector<Weight *> weightsIn,weightsOut;
+        Actfun* actfun;
+    public:
+        Node(Actfun* actfun);
+        void addWeightIn(Weight* wp);
+        void addWeightOut(Weight* wp);
+        void setValue(double value);
+        void setError(double value);
+        void setOutput(double value);
+        void backProp();
+        double getError(){return error;};
+        double getValue(){return value;};
+        double getOutput(){return output;};
+        void calcValue();
+        void calcError();
+};
+#endif
+    </code>
+</pre>
+<h4>Weight</h4>
+<p>
+Each weight has: a node it connected from, a node it is connected to, a weight value.
+</p>
+<pre>
+    <code>
+#ifndef WEIGHT_H
+#define WEIGHT_H
+class Weight;
+#include "Node.h"
+
+class Weight{
+    
+    private:
+        double weight;
+        Node* to;
+        Node* from;
+    public:
+        static double alpha;
+        Weight(double weight);
+        double getWeight(){return weight;};
+        void setTo(Node* to);
+        void setFrom(Node* from);
+        void updateWeight();
+        double calcProduct();
+        double calcError();
+};
+#endif
+    </code>
+</pre>
+<h4>MLP Network</h4>
+<p>
+An MLP is constructed from a list of layers. Each MLP has in input layer and an output layer and one or more hidden layers. Each layer is made up of a list of nodes. Where each node, as described above, has two list of weights connecting it to the layers above and below it, in the case of the hidden layers. The input layer nodes are connected to the first hidden layer and the output nodes are connected to the last hidden layer. 
+</p>
+
+<pre>
+    <code>
+#ifndef MLP_H
+#define MLP_H
+class MLP;
+using namespace std;
+#include "Weight.h"
+#include "Node.h"
+#include "Actfun.h"
+#include <vector>
+class MLP{
+    private:
+        vector<vector<Node*>> network; 
+        int layers;    
+    public:
+        MLP(vector<int> nodesPerLayer,Actfun* relufun);
+        void setInput(int indx,double value);
+        double train(double *y);
+        int getInputSize();
+        double rand_d();
+};
+#endif
+
+    </code>
+</pre>

@@ -20,14 +20,28 @@ body {
   cursor: pointer;
 }
 
-.navitm{
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.navitm, .dropdown-btn {
   padding: 6px 8px 6px 16px;
   font-size: 25px;
   color: #ddd;
   display: block;
 }
 
-.navitm:hover {
+.navitm:hover , .dropdown-btn:hover {
   color: #fff;
 }
 
@@ -52,8 +66,27 @@ pre {
 
 .main {
   margin-left: 160px; /* Same as the width of the sidenav */
-  font-size: 28px; /* Increased text to enable scrolling */
+  font-size: 20px; /* Increased text to enable scrolling */
   padding: 0px 10px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+  
+  color: white;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
 }
 
 @media screen and (max-height: 450px) {
@@ -70,6 +103,15 @@ pre {
   <div class="navitm" onclick="loadSnippet('libs')">Library</div>
   <div class="navitm" onclick="loadSnippet('ctype')">Ctype</div>
   <div class="navitm" onclick="loadSnippet('derivative')">Derivative</div>
+  <div class="navitm" onclick="loadSnippet('mlp')">MLP</div>
+    <button class="dropdown-btn">Dropdown
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-container">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
 </div>
 
 <div class="main">
@@ -81,6 +123,21 @@ pre {
         $("#content").load("snippets/"+fileName+".html");
     }
     loadSnippet("about")
+    
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
+      });
+    }    
 </script>   
 </body>
 </html> 
