@@ -30,6 +30,7 @@ class Relufun: public Actfun{
 
 
 
+
 int main(int argc, char **argv){
     Weight::alpha = 0.2;
     MLP mlp = MLP({3,4,1},new Relufun());
