@@ -12,8 +12,9 @@ class MLP{
         vector<Weight*> weights;
         int layers;    
     public:
-        MLP(vector<int> nodesPerLayer,Actfun* relufun);
-        double train(double*X,double *y);
+        MLP();
+        void init(int num_numbers, int *numbers);
+        double train(int numX, double *X, int numy, double *y);
         double rand_d();
 };
 #endif

@@ -11,12 +11,34 @@
 
 using namespace std;
 
-MLP::MLP(vector<int> nodesPerLayer,Actfun* relufun){
+
+class Relufun: public Actfun{
+    public:
+        double actFunction(double value){
+            if(value<=0){
+                return 0.0;
+            }
+            return value; 
+        }
+        double divFunction(double value){
+            if(value<=0){
+                return 0.0;
+            }
+            return 1; 
+        }
+};
+
+MLP::MLP(){
+}
+void MLP::init(int num_numbers, int *numbers){
+    vector<int> nodesPerLayer;
+    for (int i = 0; i < num_numbers; i++) {
+        nodesPerLayer.push_back(numbers[i]);
+    }
     layers = nodesPerLayer.size()-1;
-    cout<< layers << endl;
     srand(time(nullptr)); 
     Actfun* fun = new Actfun();
-    
+    Actfun* relufun = new Relufun();
     // Create first layer
     vector<Node*> v1;
     network.push_back(v1);
@@ -57,7 +79,7 @@ double MLP::rand_d(){
     return ((double) rand() / (RAND_MAX)) ;
 };
 
-double MLP::train(double*X,double *y){
+double MLP::train(int numX, double *X, int numy, double *y){
     double ersum = 0.0;
     
     for(int i=0; i<network[0].size(); i++){
@@ -89,4 +111,17 @@ double MLP::train(double*X,double *y){
     }
     
     return ersum;
+}
+
+extern "C" {
+    MLP* MLP_new(){ 
+        return new MLP(); 
+    }
+    void MLP_init(MLP* mlp,int x, int num_numbers, int *numbers){ 
+        cout<< x<< " "<<num_numbers << endl;
+        mlp->init(num_numbers,numbers); 
+    }
+    double MLP_train(MLP* mlp, int x, int numX, double *X, int numy, double *y){ 
+        return mlp->train(numX,X,numy,y); 
+    }
 }

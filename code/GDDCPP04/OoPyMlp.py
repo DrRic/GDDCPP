@@ -10,11 +10,12 @@ class Weight:
     def getOutput(self):
         return self.weight * self.node_from.output
         
-    def getDelta(self):
-        return self.weight * self.node_to.delta
+    def getError(self):
+        print(self.weight , self.node_to.error)
+        return self.weight * self.node_to.error
         
     def update(self):
-        self.weight -= self.node_from.output * self.node_to.delta * Weight.alpha
+        self.weight -= self.node_from.output * self.node_to.error * Weight.alpha
 
 
 class Node:
@@ -23,7 +24,7 @@ class Node:
         self.weights_in=[]
         self.weights_out=[]
         self.output = 0.0
-        self.delta = 0.0
+        self.error = 0.0
         self.actfun = actfun
         self.divfun = divfun
         
@@ -34,18 +35,20 @@ class Node:
         self.output = self.actfun(value)
         
     def calcDelta(self):
-        error = 0.0
+        err = 0.0
         for w in self.weights_out:
-            error += w.getDelta()
-        self.delta = self.divfun(output) * error
+            err += w.getError()
+            print(err)
+        self.error = self.divfun(self.output) * err
+        print(self.error)
         
     def addWeightIn(self,w):
         self.weights_in.append(w)
-        w.node_to = self
+        
             
     def addWeightOut(self,w):
         self.weights_out.append(w)
-        w.node_from = self
+       
             
         
 class MLP:
@@ -72,6 +75,8 @@ class MLP:
                     new_weight = Weight()
                     new_weight.weight = (2.0* random.random())-1.0
                     new_node.addWeightIn(new_weight)
+                    new_weight.node_from = n
+                    new_weight.node_to = new_node
                     n.addWeightOut(new_weight)
                     self.weights.append(new_weight)
                 self.network.append(new_layer)       
@@ -84,6 +89,8 @@ class MLP:
                 new_weight = Weight()
                 new_weight.weight = (2.0* random.random())-1.0
                 new_node.addWeightIn(new_weight)
+                new_weight.node_from = n
+                new_weight.node_to = new_node
                 n.addWeightOut(new_weight)
                 self.weights.append(new_weight)
             self.network.append(self.output_layer)
@@ -101,8 +108,7 @@ class MLP:
             err = self.output_layer[i].output - y[i]
             self.output_layer[i].delta = err
             err_sum += err*err
-        
-        for i in reversed(range(1,self.num_layers-1)):
+        for i in reversed(range(1,self.num_layers)):
             for n in self.network[i]:
                 n.calcDelta()
         
