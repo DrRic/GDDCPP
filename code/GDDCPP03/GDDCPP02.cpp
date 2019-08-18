@@ -85,7 +85,7 @@ int main(int argc, char **argv)
         }
     }
 
-    for(int it=0; it<1; it++){
+    for(int it=0; it<61; it++){
         double er = 0;
         for(int k=0; k<4; k++){
             // Populate the input layer with data
@@ -98,23 +98,23 @@ int main(int argc, char **argv)
             // hidden layer
             for(int j=0; j<network[1].size(); j++){
                 network[1][j]->calcValue();
-                cout<< network[1][j]->getOutput() << " " ;
+                //cout<< network[1][j]->getOutput() << " " ;
             }
-            cout<<endl;
+            //cout<<endl;
 
             // output layer
             for(int j=0; j<network[2].size(); j++){
                 network[2][j]->calcValue();
-                cout<< network[2][j]->getOutput() << " ";
+                //cout<< network[2][j]->getOutput() << " ";
             }
-            cout<<endl;
+            //cout<<endl;
 
             // calculate the ouput error
             for(int j=0; j<network[2].size(); j++){
                 network[2][j]->setError(network[2][j]->getOutput()-y[k]);
                 er+=pow((network[2][j]->getOutput()-y[k]),2);
             }
-            cout<< er <<endl;
+            //cout<< er <<endl;
 
             // calculate the hidden error
             for(int j=0; j<network[1].size(); j++){
