@@ -14,7 +14,7 @@ class MLP{
     public:
         MLP();
         void init(int num_numbers, int *numbers);
-        double train(int numX, double *X, int numy, double *y);
+        double train( vector<double> *X, vector<double> *y);
         double rand_d();
 };
 #endif

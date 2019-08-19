@@ -32,8 +32,11 @@ MLP::MLP(){
 }
 void MLP::init(int num_numbers, int *numbers){
     vector<int> nodesPerLayer;
+    Weight::alpha  = 0.002;
+    //cout << num_numbers << endl;
     for (int i = 0; i < num_numbers; i++) {
         nodesPerLayer.push_back(numbers[i]);
+        //cout << numbers[i] << endl;
     }
     layers = nodesPerLayer.size()-1;
     srand(time(nullptr)); 
@@ -52,7 +55,7 @@ void MLP::init(int num_numbers, int *numbers){
         for(int i=0; i<nodesPerLayer[l]; i++){
             network[l].push_back(new Node(relufun));
             for(int j=0; j<nodesPerLayer[l-1]; j++){
-                Weight* wp = new Weight((rand_d()*2.0)-1.0);
+                Weight* wp = new Weight((rand_d()*0.2)-0.1);
                 weights.push_back(wp);
                 network[l][i]->addWeightIn(wp);
                 network[l-1][j]->addWeightOut(wp);
@@ -78,12 +81,14 @@ void MLP::init(int num_numbers, int *numbers){
 double MLP::rand_d(){
     return ((double) rand() / (RAND_MAX)) ;
 };
+in 
 
-double MLP::train(int numX, double *X, int numy, double *y){
+double MLP::train( vector<double> *X, vector<double> *y){
     double ersum = 0.0;
     
     for(int i=0; i<network[0].size(); i++){
-        network[0][i]->setOutput(X[i]);
+        //cout << X->at(i) << " ";
+        network[0][i]->setOutput(X->at(i));
     }
         //Feedfoward
     for(int l=1; l<network.size(); l++){
@@ -94,12 +99,12 @@ double MLP::train(int numX, double *X, int numy, double *y){
     
     //Errors
     for(int j=0; j<network[layers].size(); j++){
-        double er = network[layers][j]->getOutput()-y[j];
+        double er = network[layers][j]->getOutput()-y->at(j);
         network[layers][j]->setError(er);
         ersum+=er*er;
     }
     for(int l = layers-1; l>0; l--){
-        cout<< l << endl;
+        //cout<< l << endl;
         for(int j=0; j<network[l].size(); j++){
             network[l][j]->calcError();
         }
@@ -111,17 +116,4 @@ double MLP::train(int numX, double *X, int numy, double *y){
     }
     
     return ersum;
-}
-
-extern "C" {
-    MLP* MLP_new(){ 
-        return new MLP(); 
-    }
-    void MLP_init(MLP* mlp,int x, int num_numbers, int *numbers){ 
-        cout<< x<< " "<<num_numbers << endl;
-        mlp->init(num_numbers,numbers); 
-    }
-    double MLP_train(MLP* mlp, int x, int numX, double *X, int numy, double *y){ 
-        return mlp->train(numX,X,numy,y); 
-    }
 }

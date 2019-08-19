@@ -18,7 +18,7 @@ double Weight::calcProduct(){
 }
 
 double Weight::calcError(){
-    cout<< this->to->getError()<<"  " << this->weight<<endl;
+    //cout<< this->to->getError()<<"  " << this->weight<<endl;
     return this->to->getError() * this->weight;
 }
 
