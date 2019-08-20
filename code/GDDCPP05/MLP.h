@@ -13,8 +13,11 @@ class MLP{
         int layers;    
     public:
         MLP();
-        void init(int num_numbers, int *numbers);
+        void init(int num_numbers, int *numbers,double dropout);
         double train( vector<double> *X, vector<double> *y);
+        void feedFoward( vector<double> *X);
+        int countCorrect( vector<double> *y);
+        int getOutput();
         double rand_d();
 };
 #endif

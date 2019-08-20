@@ -1,11 +1,15 @@
-#include "Node.h"
+#include "Node.h" 
+#include <vector>
 #include <iostream>
+#include <stdio.h> 
+#include <stdlib.h>
 using namespace std;
-
-Node::Node(Actfun* actfun){
+Node::Node(Actfun* actfun, double dropout){
     this->output=0.0;
     this->error=0.0;
     this->actfun = actfun;
+    this->drop = 1;
+    this->dropout = dropout;
 }
 
 void Node::addWeightIn(Weight* wp){
@@ -28,10 +32,15 @@ void Node::setOutput(double output){
 
 void Node::calcValue(){
     double value = 0.0;
+    if(((double) rand() / (RAND_MAX))<dropout){
+        this->drop = 0;
+    }else{
+        this->drop = 1;
+    }
     for(int i=0; i<weightsIn.size(); ++i){
         value+=weightsIn[i]->calcProduct();
     } 
-    output = actfun->actFunction(value);
+    output = actfun->actFunction(value)*drop;
 }
 
 void Node::calcError(){
@@ -39,7 +48,7 @@ void Node::calcError(){
     for(int i=0; i<weightsOut.size(); ++i){
         err+=weightsOut[i]->calcError();
     } 
-    this->error = err* actfun->divFunction(output);
+    this->error = err* actfun->divFunction(output)* dropout;
 }
 
 

@@ -41,7 +41,7 @@ def initilise(layout):
 # In[9]:
 
 
-filepath = '../../data/mnist.csv'
+filepath = '../../../data/mnist.csv'
 inputs =0
 outputs = 0
 with open(filepath, "r") as ins:
@@ -63,9 +63,9 @@ print(count)
 # In[ ]:
 
 print(inputs,outputs)
-initilise([inputs,80,outputs])
+initilise([inputs,40,outputs])
 
-for i in range(600):
+for i in range(200):
     er = train()
     if( i % 10 == 0):
         print(i,er)
